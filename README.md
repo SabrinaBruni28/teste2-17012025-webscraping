@@ -26,3 +26,11 @@ Neste teste, você precisa desenvolver uma aplicação para coletar dados do sit
 5) Envie seus commits para o GitHub faltando 5 minutos para o prazo final do teste. Não faça antes, pois você pode expor informações do seu teste para os demais participantes.
 6) Abra o pull request também faltando 5 minutos para o prazo final da entrega do teste.
 7) A entrega deve ser realizada dentro do prazo estabelecido.
+
+## Como executar:
+* Para executar é necessário o selenium:
+  - Para instalar digite no terminal`sudo pip install selenium`
+
+* Para executar digite:
+  - `make teste USERNAME=username PASSWORD=senha UNIVERSIDADE=universidade CAMPUS=campus CURSO=curso TURNO=turno GRAU=grau`
+  - Ou `make` para ver como executar
