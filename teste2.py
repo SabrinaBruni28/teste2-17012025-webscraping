@@ -1,7 +1,7 @@
 import coleta_dados as cd
 import sys
 
-def coleda_dados_brasil(username, password, universidade = "Todos", campus = "", curso = "Todos", turno = "Todos", grau = "Todos"):
+def coleta_dados_brasil(username, password, universidade = "Todos", campus = "", curso = "Todos", turno = "Todos", grau = "Todos"):
 
     menu = "/html/body/nav/div/a[2]/i"
     sua_conta = '//*[@id="mobile-demo"]/li[1]/a'
@@ -97,4 +97,4 @@ if __name__ == "__main__":
     turno = sys.argv[6]
     grau = sys.argv[7]
 
-    coleda_dados_brasil(username, password, universidade, campus, curso, turno, grau)
+    coleta_dados_brasil(username, password, universidade, campus, curso, turno, grau)
