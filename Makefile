@@ -28,4 +28,4 @@ teste:
 	@echo "CURSO: $(CURSO)"
 	@echo "TURNO: $(TURNO)"
 	@echo "GRAU: $(GRAU)"
-	@PYTHONDONTWRITEBYTECODE=1 python3 teste2.py $(USERNAME) $(PASSWORD) "$(UNIVERSIDADE)" $(CAMPUS) "$(CURSO)" $(TURNO) $(GRAU)
+	@PYTHONDONTWRITEBYTECODE=1 python3 teste2.py "$(USERNAME)" "$(PASSWORD)" "$(UNIVERSIDADE)" "$(CAMPUS)" "$(CURSO)" "$(TURNO)" "$(GRAU)"
