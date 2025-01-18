@@ -17,6 +17,10 @@ class ColetaDados:
         self.driver = webdriver.Chrome()
         self.driver.get(url)
     
+    def __init__(self, url, diretorio_download):
+        self.driver = self.definir_diretorio_download(diretorio_download)
+        self.driver.get(url)
+    
     # Método para mostrar informações do carro
     def click(self, xpath, tempo_espera):
         try:
@@ -25,9 +29,9 @@ class ColetaDados:
             )
             elemento.click()  # Clique no menu para expandir
             print("Botão clicado!")
-        except:
+        except Exception as e:
             print("Erro ao clicar no botão.")
-            return 0
+            return e
         return 1
     
     def preenche_campo(self, id, informacao, tempo_espera ):
@@ -39,7 +43,7 @@ class ColetaDados:
             print(f"{id} preenchido!")
         except Exception as e:
             print(f"Erro ao preencher o campo de {id}: {e}")
-            return 0
+            return e
         return 1
 
     def preenche_campo_enter(self, id, informacao, tempo_espera ):
@@ -52,42 +56,50 @@ class ColetaDados:
                 print(f"{id} preenchido!")
             except Exception as e:
                 print(f"Erro ao preencher o campo de {id}: {e}")
-                return 0
+                return e
             return 1
     
-    def preenche_selecao(self, xpath, opcao, tempo_espera):
-       # Espera até o input (campo de texto) estar presente
-        campo_input = WebDriverWait(self.driver, tempo_espera).until(
-            EC.presence_of_element_located((By.XPATH, xpath))
-        )
+    def preenche_selecao(self, xpath, opcao_desejada, tempo_espera):
+        try:
+            # Passo 1: Localizar o campo de seleção e clicar
+            campo = WebDriverWait(self.driver, tempo_espera).until(
+                EC.element_to_be_clickable((By.XPATH, xpath))
+            )
+            campo.click()  # Abre o menu suspenso
+            print(f"Campo '{xpath}' clicado!")
 
-        # Passo 1: Clicar no campo de texto para abrir o menu
-        campo_input.click()
+            # Passo 2: Localizar as opções correspondentes
+            data_target = campo.get_attribute("data-target")  # Obter o identificador da lista de opções
+            lista_opcoes_xpath = f'//ul[@id="{data_target}"]/li'
+            opcoes = WebDriverWait(self.driver, tempo_espera).until(
+                EC.presence_of_all_elements_located((By.XPATH, lista_opcoes_xpath))
+            )
+            
+            # Passo 3: Iterar pelas opções e selecionar a desejada
+            for opcao in opcoes:
+                if opcao.text == opcao_desejada:
+                    opcao.click()
+                    print(f"Opção '{opcao_desejada}' selecionada com sucesso!")
+                    return True
 
-        # Passo 2: Esperar que as opções apareçam no dropdown
-        opcoes_dropdown = WebDriverWait(self.driver, tempo_espera).until(
-            EC.presence_of_all_elements_located((By.XPATH, xpath))
-        )
-
-        # Passo 3: Selecionar a opção desejada (por texto)
-        for opcao in opcoes_dropdown:
-            if opcao.text == opcao:
-                opcao.click()
-                print(f"Opção '{opcao.text}' selecionada com sucesso!")
-                break
-
+            print(f"Opção '{opcao_desejada}' não encontrada no campo '{xpath}'.")
+            return False
+        except Exception as e:
+            print(f"Erro ao selecionar opção no campo '{xpath}': {e}")
+            return e
 
     def aparece(self, xpath, tempo_espera):
         try:
             # Espera até que o texto de erro apareça se as credenciais forem inválidas
             WebDriverWait(self.driver, tempo_espera).until(
-                EC.visibility_of_element_located((By.XPATH, xpath))  # Substitua pelo texto exato
+                EC.visibility_of_element_located((By.XPATH, xpath))
             )
-        except:
-            return 0
+        except Exception as e:
+            return e
         return 1
     
-    def definir_diretorio_download(download_dir):
+    def definir_diretorio_download(self, download_dir):
+        download_dir = os.path.join(os.getcwd(), download_dir)
         # Garantir que o diretório exista
         if not os.path.exists(download_dir):
             os.makedirs(download_dir)
@@ -99,6 +111,11 @@ class ColetaDados:
             "download.prompt_for_download": False,        # Impede o prompt de download
             "directory_upgrade": True                     # Permite substituir arquivos sem aviso
         })
+
+        # Iniciar o WebDriver com as opções configuradas
+        driver = webdriver.Chrome(options=chrome_options)
+        
+        return driver
 
     def encerrar(self):
         time.sleep(5)

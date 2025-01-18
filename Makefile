@@ -1,3 +1,10 @@
+# Definindo valores padrão
+UNIVERSIDADE ?= "Todos"
+CAMPUS ?= ""
+CURSO ?= "Todos"
+TURNO ?= "Todos"
+GRAU ?= "Todos"
+
 # Alvo padrão
 help:
 	@echo "Uso: make teste USERNAME=<username> PASSWORD=<password> UNIVERSIDADE=<universidade> CAMPUS=<campus> CURSO=<curso> TURNO=<turno> GRAU=<grau>"
@@ -5,12 +12,11 @@ help:
 	@echo "Parâmetros:"
 	@echo "  USERNAME     - Nome de usuário"
 	@echo "  PASSWORD     - Senha"
-	@echo "  UNIVERSIDADE - Nome da universidade"
-	@echo "  CAMPUS       - Nome do campus"
-	@echo "  CURSO        - Nome do curso"
-	@echo "  TURNO        - Turno do curso"
-	@echo "  GRAU         - Grau do curso"
-
+	@echo "  UNIVERSIDADE - Nome da universidade (padrão: $(UNIVERSIDADE))"
+	@echo "  CAMPUS       - Nome do campus (padrão: $(CAMPUS))"
+	@echo "  CURSO        - Nome do curso (padrão: $(CURSO))"
+	@echo "  TURNO        - Turno do curso (padrão: $(TURNO))"
+	@echo "  GRAU         - Grau do curso (padrão: $(GRAU))"
 
 # Alvo para rodar o script Python
 teste:
@@ -22,4 +28,4 @@ teste:
 	@echo "CURSO: $(CURSO)"
 	@echo "TURNO: $(TURNO)"
 	@echo "GRAU: $(GRAU)"
-	@PYTHONNOUSERSITE=1 python3 teste2.py $(USERNAME) $(PASSWORD) $(UNIVERSIDADE) $(CAMPUS) $(CURSO) $(TURNO) $(GRAU)
+	@PYTHONDONTWRITEBYTECODE=1 python3 teste2.py $(USERNAME) $(PASSWORD) "$(UNIVERSIDADE)" $(CAMPUS) "$(CURSO)" $(TURNO) $(GRAU)
