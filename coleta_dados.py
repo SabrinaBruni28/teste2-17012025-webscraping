@@ -1,14 +1,10 @@
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium import webdriver
-import time
-import sys
-import os
+import time, sys, os
 
 # Definindo a classe
 class ColetaDados:
@@ -21,7 +17,6 @@ class ColetaDados:
         self.driver = self.definir_diretorio_download(diretorio_download)
         self.driver.get(url)
     
-    # Método para mostrar informações do carro
     def click(self, xpath, tempo_espera):
         try:
             elemento = WebDriverWait(self.driver, tempo_espera).until(
@@ -31,7 +26,7 @@ class ColetaDados:
             print("Botão clicado!")
         except Exception as e:
             print("Erro ao clicar no botão.")
-            return e
+            raise
         return 1
     
     def preenche_campo(self, id, informacao, tempo_espera ):
@@ -43,21 +38,21 @@ class ColetaDados:
             print(f"{id} preenchido!")
         except Exception as e:
             print(f"Erro ao preencher o campo de {id}: {e}")
-            return e
+            raise
         return 1
 
     def preenche_campo_enter(self, id, informacao, tempo_espera ):
-            try:
-                input = WebDriverWait(self.driver, tempo_espera).until(
-                    EC.visibility_of_element_located((By.ID, id))
-                )
-                input.send_keys(informacao)
-                input.send_keys(Keys.RETURN)  # Simula pressionamento de Enter
-                print(f"{id} preenchido!")
-            except Exception as e:
-                print(f"Erro ao preencher o campo de {id}: {e}")
-                return e
-            return 1
+        try:
+            input = WebDriverWait(self.driver, tempo_espera).until(
+                EC.visibility_of_element_located((By.ID, id))
+            )
+            input.send_keys(informacao)
+            input.send_keys(Keys.RETURN)  # Simula pressionamento de Enter
+            print(f"{id} preenchido!")
+        except Exception as e:
+            print(f"Erro ao preencher o campo de {id}: {e}")
+            raise
+        return 1
     
     def preenche_selecao(self, xpath, opcao_desejada, tempo_espera):
         try:
@@ -86,7 +81,7 @@ class ColetaDados:
             return False
         except Exception as e:
             print(f"Erro ao selecionar opção no campo '{xpath}': {e}")
-            return e
+            raise
 
     def aparece(self, xpath, tempo_espera):
         try:
@@ -94,8 +89,8 @@ class ColetaDados:
             WebDriverWait(self.driver, tempo_espera).until(
                 EC.visibility_of_element_located((By.XPATH, xpath))
             )
-        except Exception as e:
-            return e
+        except Exception:
+            return 0
         return 1
     
     def definir_diretorio_download(self, download_dir):

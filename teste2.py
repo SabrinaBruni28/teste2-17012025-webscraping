@@ -4,10 +4,8 @@ import sys
 def coleda_dados_brasil(username, password, universidade = "Todos", campus = "", curso = "Todos", turno = "Todos", grau = "Todos"):
 
     menu = "/html/body/nav/div/a[2]/i"
-
-    sua_conta = ""
-    login = ""
-
+    sua_conta = '//*[@id="mobile-demo"]/li[1]/a'
+    login = '//*[@id="mobile_unauthenticated-dropdown"]/li[2]/a'
     erro = "/html/body/main/div/div/p"
 
     dataset = "/html/body/main/section[2]/div/div[2]/a/div"
@@ -16,7 +14,6 @@ def coleda_dados_brasil(username, password, universidade = "Todos", campus = "",
 
     campo_universidade = '//*[@id="data"]/div[1]/div/form/div[1]/div[4]/div/input'
     botao_campus = '//*[@id="data"]/div[1]/div/form/div[1]/div[5]/label'
-    campo_campus = '//*[@id="id_campus_nome"]'
     campo_curso = '//*[@id="data"]/div[1]/div/form/div[1]/div[6]/div/input'
     campo_turno = '//*[@id="data"]/div[1]/div/form/div[1]/div[8]/div/input'
     campo_grau = '//*[@id="data"]/div[1]/div/form/div[1]/div[7]/div/input'
@@ -28,16 +25,11 @@ def coleda_dados_brasil(username, password, universidade = "Todos", campus = "",
     download_dir = "downloads"
 
     coleta = cd.ColetaDados("https://brasil.io/home/", download_dir)
-
-    # Passo 1: Verificar se o menu hambúrguer está visível
-    if (coleta.click(menu, 10)):
-        sua_conta = '//*[@id="mobile-demo"]/li[1]/a'
-        login = '//*[@id="mobile_unauthenticated-dropdown"]/li[2]/a'
-    else:
-        sua_conta = '/html/body/nav/div/ul/li[1]/a/i'
-        login = '//*[@id="desktop_unauthenticated-dropdown"]/li[2]/a'
-
+    
     try:
+        # Passo 1: Clicar no menu
+        coleta.click(menu, 10)
+
         # Passo 2: Clicar na seta "Sua Conta"
         coleta.click(sua_conta, 5)
             
@@ -67,14 +59,13 @@ def coleda_dados_brasil(username, password, universidade = "Todos", campus = "",
         coleta.click(botao_seta, 5)
         coleta.click(botao_cursos, 5)
             
-        # Passo 10: Preencher o campos de filtro
+        # Passo 10: Preencher os campos de filtro
         # Filtrando pela universidade
         coleta.preenche_selecao(campo_universidade, universidade, 5)
             
         # Filtrando pelo nome do campus
-        if (campus != ""):
-            coleta.click(botao_campus, 10)
-            coleta.preenche_campo(campo_campus, campus, 10)
+        coleta.click(botao_campus, 10)
+        coleta.preenche_campo("id_campus_nome", campus, 10)
         
         # Filtrando pelo curso
         coleta.preenche_selecao(campo_curso, curso, 10)
@@ -92,6 +83,7 @@ def coleda_dados_brasil(username, password, universidade = "Todos", campus = "",
         coleta.click(botao_baixar, 10)
             
     except Exception as e:
+        print(e)
         return e
     coleta.encerrar()
 
