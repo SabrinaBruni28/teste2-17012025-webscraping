@@ -102,7 +102,7 @@ class ColetaDados:
         # Configurar o ChromeOptions para definir o diretório de download
         chrome_options = Options()
         chrome_options.add_experimental_option("prefs", {
-            "download.default_directory": download_dir,  # Define o diretório de download
+            "download.default_directory": download_dir,   # Define o diretório de download
             "download.prompt_for_download": False,        # Impede o prompt de download
             "directory_upgrade": True                     # Permite substituir arquivos sem aviso
         })

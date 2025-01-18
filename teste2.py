@@ -30,7 +30,7 @@ def coleta_dados_brasil(username, password, universidade = "Todos", campus = "",
         # Passo 1: Clicar no menu
         coleta.click(menu, 10)
 
-        # Passo 2: Clicar na seta "Sua Conta"
+        # Passo 2: Clicar no botão "Sua Conta"
         coleta.click(sua_conta, 5)
             
         # Passo 3: Clicar no botão "Login"
@@ -39,7 +39,7 @@ def coleta_dados_brasil(username, password, universidade = "Todos", campus = "",
         # Passo 4: Preencher o campo de login
         coleta.preenche_campo("id_username", username, 5)
             
-        # Passo 5: Preencher o campo de senha (se aplicável)
+        # Passo 5: Preencher o campo de senha
         coleta.preenche_campo_enter("id_password", password, 5)
             
         # Passo 6: Verificar se o login foi bem-sucedido ou se o erro de login foi exibido

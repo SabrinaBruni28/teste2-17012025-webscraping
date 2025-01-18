@@ -29,8 +29,8 @@ Neste teste, você precisa desenvolver uma aplicação para coletar dados do sit
 
 ## Como executar:
 * Para executar é necessário o selenium:
-  - Para instalar digite no terminal`sudo pip install selenium`
+  - Para instalar digite no terminal `sudo pip install selenium`
 
 * Para executar digite:
-  - `make teste USERNAME=username PASSWORD=senha UNIVERSIDADE=universidade CAMPUS=campus CURSO=curso TURNO=turno GRAU=grau`
+  - `make teste USERNAME="username" PASSWORD="senha" UNIVERSIDADE="universidade" CAMPUS="campus" CURSO="curso" TURNO="turno" GRAU="grau"`
   - Ou `make` para ver como executar
